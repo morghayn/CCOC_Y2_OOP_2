@@ -20,3 +20,9 @@ void Utilities::gotoXY(int x, int y, string text, bool highlight) {
 	cout << text;
     SetConsoleTextAttribute(myConsole, 15);
 }
+
+void Utilities::gotoXY(int x, int y, char text) {
+	CursorPosition.X = x; CursorPosition.Y = y;
+	SetConsoleCursorPosition(myConsole,CursorPosition);
+	cout << text;
+}

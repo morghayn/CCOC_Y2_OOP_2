@@ -6,6 +6,7 @@ using namespace std;
 class Utilities {
     public:
         void gotoXY(int x, int y);
+        void gotoXY(int x, int y, char text);
         void gotoXY(int x, int y, string text, bool highlight);
 };
 
