@@ -1,12 +1,12 @@
-Vehicle Type	Registration Num	Make	Model	KMS Driven	Capacity	Wheelchair	Status
-Taxi	12 C 4956	Hyundai	i30 Tourer	65,172	4	Yes	Active
-Taxi	14 C 89365	Ford	Mondeo	33,892	4	Yes	Active
-Taxi	15 C 46046	VW	Passat	23,897	4	Yes	Active
-Taxi	14 C 38492	Nissan	Primera	29,418	4	Yes	Active
-Taxi	10 C 99393	Skoda	Octavia	89,678	4	Yes	Active
-Taxi	15 C 2379	Seat	Toledo	12,812	4	Yes	Active
-Bus	10 C 37209	Ace	Cougar	28,786	48	Yes	Active
-Bus	11 C 882	Daimler	Fleetline	68,893	48	No	Active
-Minibus	14 C 23908	Ford	Transit	18,827	16	Yes	Active
-Minibus	10 C 831	Fiat	Ducato	32,986	16	Yes	Active
-Minibus	13 C 82677	Mercedes-Benz	Vario	18,567	20	No	Active
+Vehicle Type	Registration Num	Make	Model	KMS Driven	Capacity	Wheelchair	Status	
+Taxi	12 C 4956	Hyundai	i30 Tourer	65,172	4	Yes	Active	
+Taxi	14 C 89365	Ford	Mondeo	33,892	4	Yes	Active	
+Taxi	15 C 46046	VW	Passat	23,897	4	Yes	Active	
+Taxi	14 C 38492	Nissan	Primera	29,418	4	Yes	Inactive	
+Taxi	10 C 99393	Skoda	Octavia	89,678	4	Yes	Inactive	
+Taxi	15 C 2379	Seat	Toledo	12,812	4	Yes	Inactive	
+Bus	10 C 37209	Ace	Cougar	28,786	48	Yes	Inactive	
+Bus	11 C 882	Daimler	Fleetline	68,893	48	No	Inactive	
+Minibus	14 C 23908	Ford	Transit	18,827	16	Yes	Inactive	
+Minibus	10 C 831	Fiat	Ducato	32,986	16	Yes	Inactive	
+Minibus	13 C 82677	Mercedes-Benz	Vario	18,567	20	No	Inactive	
