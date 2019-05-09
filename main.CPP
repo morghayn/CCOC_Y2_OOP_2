@@ -1,16 +1,20 @@
 #include "main.h"
 
-int main() {MainMenu Load; return 0;};
+int main() {
+    MainMenu Load;
+    return 0;
+};
 
 MainMenu::MainMenu() {
     button_name = Generate_Two_Dimensional_Vector("tsv/system/config.tsv");
     button_descriptions = Generate_Two_Dimensional_Vector("tsv/system/button_descriptions.tsv");
     for(int i = 0; i < 3; i++) selection[i] = 0; selection[1] = 3;
     exit_trigger = false; primary_selected = true;
-    ///
     system("CLS"); Set_Console(); Print_Descriptors();
     while(exit_trigger == false) {
-        Print(); key_press = getch(); Handle_Key_Press();
+        Print();
+        key_press = getch();
+        Handle_Key_Press();
     }
 }
 
@@ -50,35 +54,38 @@ void MainMenu::Execute() {
             switch(selection[1]) {
                 case 0: {Print_TSV_Table Drivers("tsv/drivers.tsv", "<[   D r i v e r   D e t a i l s   ]>", false); break;}
                 case 1: {Print_TSV_Table Vehicles("tsv/vehicles.tsv", "<[   V e h i c l e   D e t a i l s   ]>", false); break;}
-                case 2: {Print_TSV_Table Fares("tsv/active_fares.tsv", "<[   F a r e s   D e t a i l s   ]>", false); break;}
+                case 2: {
+                    Yes_No_Box("Do you want to view active fares or the fare log?:", "Active Fares", "Fare Log", false);
+                    if (yes_no_box_selection == true) Print_TSV_Table Active_Fares("tsv/active_fares.tsv", "<[   A c t i v e   F a r e s   ]>", false);
+                    else Print_TSV_Table Fare_Log("tsv/fare_log.tsv", "<[   F a r e s   L o g   ]>", false);
+                    break;
+                    } // Fare Log / Active Fares
             }   break;
         case 1:
             switch(selection[1]) {
-                case 0: break; // Terminate Fare
+                case 0: {Terminate_Fare Load; break;} // Terminate Fare
                 case 1: {Allocate_Fare Load; break;} // Allocate Fare
-                case 2: break; // Generate Report
+                case 2: {
+                    Yes_No_Box("View report analytics log on:", "Drivers", "Vehicles", false);
+                    if (yes_no_box_selection == true) Print_TSV_Table Driver_Log("tsv/driver_log.tsv", "<[   D r i v e r   R e p o r t   ]>", false);
+                    else Print_TSV_Table Vehicle_Log("tsv/vehicle_log.tsv", "<[   V e h i c l e   R e p o r t   ]>", false);
+                    break;
+                } // Generate Report
             }   break;
         case 2:
             switch(selection[1]) {
-                case 0: {Change_Console_Size Load; break;} // Change Console Size
-                case 1: break; // Misc 2
+                case 0: {Change_Console_Size Load; system("CLS"); Set_Console(); break;} // Change Console Size
+                case 1: {Change_Console_Colour Load; break;} // Misc 2
                 case 2: exit_trigger = true; break; // Exit
             }   break;
     }   system("CLS"); Print_Descriptors();
 }
 
 void MainMenu::Print_Descriptors() {
-    Print_Title();
-    Print_Footer();
-}
-
-void MainMenu::Print_Title() {
     string menu_title = "<[   C a l l - O u t   D i s p a t c h   S e r v i c e s   ]>";
     gotoXY(0, 1, double_line, 0); gotoXY(0, 5, double_line, 0);
     gotoXY(((console_width / 2) - (menu_title.length() / 2)), 3, menu_title, 0);
-}
 
-void MainMenu::Print_Footer() {
     string footer_message = "( Use [ARROW KEYS], [ENTER] and [BACK-SPACE] to control this application. )";
     gotoXY(0, console_height - 3, single_line, 0);
     gotoXY(((console_width / 2) - (footer_message.length() / 2)), console_height - 3, footer_message, 0);
@@ -117,9 +124,9 @@ void MainMenu::Update_Buttons() {
 }
 
 void MainMenu::Draw_Button(int x_position, int y_position, bool selection_status) {
-    int button_width = 19, button_height = 3, button_colour = 8;
+    Get_Colour(); int button_width = 19, button_height = 3, button_colour = 8;
 
-    if (selection_status == 1) button_colour = 3; SetConsoleTextAttribute(myConsole, button_colour);
+    if (selection_status == 1) button_colour = console_colour; SetConsoleTextAttribute(myConsole, button_colour);
     gotoXY (x_position, y_position + 1);
     cout << string (button_width, '\xDB');
     gotoXY(x_position, y_position);
@@ -127,7 +134,7 @@ void MainMenu::Draw_Button(int x_position, int y_position, bool selection_status
     gotoXY(x_position, (button_height + y_position - 1));
     cout << char ('\xC0') << string (button_width - 2,'\xDF') << char ('\xD9');
 
-    if (selection_status == 1) button_colour = 63; else button_colour = 143;
+    if (selection_status == 1) button_colour = text_colour; else button_colour = 143;
     SetConsoleTextAttribute(myConsole, button_colour);
     gotoXY (x_position + ((button_width - button_name[primary][secondary].length()) / 2), y_position + 1);
     cout << button_name[primary][secondary];
@@ -136,9 +143,8 @@ void MainMenu::Draw_Button(int x_position, int y_position, bool selection_status
 }
 
 void MainMenu::Update_Button_Description() {
-    for (int i = 0; i < 15; i++) gotoXY(box_x_position[2] + 1, 9 + i, string (25, ' '));
-
     int description_value;
+    for (int i = 0; i < 15; i++) gotoXY(box_x_position[2] + 1, 9 + i, string (25, ' '));
     if (primary_selected == true) description_value = 4 * selection[2];
     else description_value = 4 * selection[0] + (selection[1] + 1);
 
@@ -148,13 +154,8 @@ void MainMenu::Update_Button_Description() {
     istringstream string_stream(test_description);
     while (getline(string_stream, parsed_word, ' ')) {
         if ((line.length() + parsed_word.length() + 1) <= 19) {
-                if (first_word != true) line += " " + parsed_word;
-                else {line += parsed_word; first_word = false;
-            }
-        }
-        else {
-            description.push_back(line); line = ""; line += parsed_word;
-        }
+                if (first_word != true) line += " " + parsed_word; else {line += parsed_word; first_word = false;}
+        } else {description.push_back(line); line = ""; line += parsed_word;}
     } description.push_back(line);
 
     int description_size = description.size();

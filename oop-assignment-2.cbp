@@ -32,10 +32,12 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="allocate_fare.CPP" />
+		<Unit filename="change_console_colour.CPP" />
 		<Unit filename="change_console_size.cpp" />
 		<Unit filename="main.CPP" />
 		<Unit filename="main.h" />
 		<Unit filename="print_tsv_file.CPP" />
+		<Unit filename="terminate_fare.cpp" />
 		<Unit filename="utilities.cpp" />
 		<Extensions>
 			<code_completion />
